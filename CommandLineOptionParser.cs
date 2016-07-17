@@ -29,6 +29,7 @@ namespace BiggestPrimeIn60s
             ConcurrentSift,
             CUDASift,
             AskServer,
+            MersenneC,
             UseTheorem
         };
         enum DisplayChoice
@@ -47,6 +48,10 @@ namespace BiggestPrimeIn60s
             foreach (var str in args) {
                 if (str.Equals("-textonly", StringComparison.OrdinalIgnoreCase)) {
                     displayChoice = Text;
+                }
+                if (str.Equals("-mersenne", StringComparison.OrdinalIgnoreCase))
+                {
+                    algoritmChoice = MersenneC;
                 }
             }
         }
@@ -95,6 +100,9 @@ namespace BiggestPrimeIn60s
             {
                 if (calculator == null)
                 {
+                    if (algorithmChoice == Mersenne)
+                        calculator = new Mersenne();
+                    else 
                     calculator = new SimpleCalculator();
                 }
                 return calculator;
