@@ -31,12 +31,24 @@ namespace BiggestPrimeIn60s
             AskServer,
             UseTheorem
         };
+        enum DisplayChoice
+        {
+            Text,
+            SimpleForm
+        };
+        PrimeSearchAlgorithms algorithmChoice = SimpleCalculator;
+        DisplayChoice displayChoice = SimpleForm;
         String[] args; // a local copy of the args.
         ITimedCalculationDisplay display; // display object of the selected display method.
         ICalculator calculator; // calculator object of the selected algorithm.
         public CommandLineOptionParser(String[] args)
         {
             this.args = args;
+            foreach (var str in args) {
+                if (str.Equals("-textonly", StringComparison.OrdinalIgnoreCase)) {
+                    displayChoice = Text;
+                }
+            }
         }
         /// <summary>
         /// Accessor of @display.
@@ -45,12 +57,35 @@ namespace BiggestPrimeIn60s
             get {
                 if (display == null)
                 {
-                    display = new SimpleDisplay();
+                    try
+                    {
+                        display = createDisplay();
+                    }
+                    catch (NotImplementedException e)
+                    {
+                        display = new SimpleDisplay();
+                    }
                 }
                 return display;
             }
         }
 
+        /// <summary>
+        /// Create a display according display choices. 
+        /// </summary>
+        /// <returns>Display object created or NotImplemented exception will be thrown.</returns>
+        ITimedCalculationDisplay createDisplay() 
+        {
+            if (displayChoice == Text)
+            {
+                return new SimpleDisplay();
+            }
+            else if (displayChoice == SimpleForm)
+            {
+                return new SimpleDisplayForm();
+            }
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// Accessor of @calculator
         /// </summary>
