@@ -30,7 +30,7 @@ namespace BiggestPrimeIn60s
             aTimer.Interval=TIMER_INTERVAL;
             aTimer.Enabled=true;
             calculator.start();
-            System.Console.WriteLine("here\n");
+            System.Console.WriteLine("program started...\n");
             System.Console.ReadLine();
         }
 

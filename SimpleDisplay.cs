@@ -25,6 +25,8 @@ namespace BiggestPrimeIn60s
             resultBox = new Label();
             timerBox.Location = new Point(20, 20);
             timerBox.Width = 200;
+            resultBox.Width = 500;
+            resultBox.Height = 80;
             resultBox.Location = new Point(20, 70);
             this.Controls.Add(timerBox);
             this.Controls.Add(resultBox);

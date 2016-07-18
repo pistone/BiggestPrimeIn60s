@@ -19,7 +19,7 @@ namespace BiggestPrimeIn60s
     /// </summary>
     class Mersenne : ICalculator
     {
-        BigInteger result = new BigInteger(8291); // 2^13 -1
+        String result = "8291"; // 2^13 -1
         int [] mersennes = new int [] {13, 17, 19, 31, 61, 89, 107, 127, 521};
 
         Thread smaller;
@@ -28,11 +28,11 @@ namespace BiggestPrimeIn60s
             try
             {
                 smaller = new Thread(new ThreadStart(attempt_smaller));
-                larger = new Thread(new ThreadStart(attemp_larger));
+                larger = new Thread(new ThreadStart(attempt_larger));
                 smaller.Start();
                 larger.Start();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 System.Console.WriteLine("Thread operation failure\n");
             }
@@ -48,17 +48,17 @@ namespace BiggestPrimeIn60s
         {
             for (int i = 1; i < 5; i++)
             {
-                BigInteger oldValue = result;
+                String oldValue = result;
                 BigInteger two = new BigInteger(2);
-                BigInteger current = BigInteger.pow(two, mersennes[i]);
-                current = BigInteger.Substract(current, new BigInteger(1));
-                if (oldValue != Interlocked.CompareExchange(ref result, current, oldvalue))
+                BigInteger current = BigInteger.Pow(two, mersennes[i]);
+                current = BigInteger.Subtract(current, new BigInteger(1));
+                if (oldValue != Interlocked.CompareExchange(ref result, current.ToString(), oldValue))
                 {
                     return; // do not write.
                 }
                 else
                 {
-                    oldValue = current;
+                    oldValue = current.ToString();
                 };
             }
         }
@@ -67,13 +67,13 @@ namespace BiggestPrimeIn60s
         /// </summary>
         void attempt_larger()
         {
-            for (int i = 5; i < mersennes.Count; i++)
+            for (int i = 5; i < mersennes.Count(); i++)
             {
-                BigInteger oldValue = result;
+                String oldValue = result;
                 BigInteger two = new BigInteger(2);
-                BigInteger current = BigInteger.pow(two, mersennes[i]);
-                current = BigInteger.Substract(current, new BigInteger(1));
-                Interlocked.Exchange(ref result, current);
+                BigInteger current = BigInteger.Pow(two, mersennes[i]);
+                current = BigInteger.Subtract(current, new BigInteger(1));
+                Interlocked.Exchange(ref result, current.ToString());
             }
         }
 

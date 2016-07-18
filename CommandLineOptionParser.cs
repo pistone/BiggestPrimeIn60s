@@ -21,9 +21,9 @@ namespace BiggestPrimeIn60s
     /// A cheating algorithm that attempts to find the answer directly. For example, it parses google results of "largest known prime number.". Or if there is a GIMPS server, such information should be available. 
     /// A chearing algorithm that uses the theorem " 2 ^ (2 ^(2 ^ n)) -1 is prime". The theorem doesn't hold but it is known for certain n (for example n less than or equal to 5) it holds. A small n
     /// will defeat most sift based algorithms.  
-        enum PrimeSearchAlgorithms
+        public enum PrimeSearchAlgorithms
         {
-            SimpleCalculator, // dummy search for test
+            SimpleCal, // dummy search for test
             SequentialSift,
             SequentialPersistentSift,
             ConcurrentSift,
@@ -32,13 +32,13 @@ namespace BiggestPrimeIn60s
             MersenneC,
             UseTheorem
         };
-        enum DisplayChoice
+        public enum DisplayChoice
         {
             Text,
             SimpleForm
         };
-        PrimeSearchAlgorithms algorithmChoice = SimpleCalculator;
-        DisplayChoice displayChoice = SimpleForm;
+        PrimeSearchAlgorithms algorithmChoice = PrimeSearchAlgorithms.SimpleCal;
+        DisplayChoice displayChoice = DisplayChoice.SimpleForm;
         String[] args; // a local copy of the args.
         ITimedCalculationDisplay display; // display object of the selected display method.
         ICalculator calculator; // calculator object of the selected algorithm.
@@ -47,11 +47,11 @@ namespace BiggestPrimeIn60s
             this.args = args;
             foreach (var str in args) {
                 if (str.Equals("-textonly", StringComparison.OrdinalIgnoreCase)) {
-                    displayChoice = Text;
+                    displayChoice = DisplayChoice.Text;
                 }
                 if (str.Equals("-mersenne", StringComparison.OrdinalIgnoreCase))
                 {
-                    algoritmChoice = MersenneC;
+                    algorithmChoice = PrimeSearchAlgorithms.MersenneC;
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace BiggestPrimeIn60s
                     {
                         display = createDisplay();
                     }
-                    catch (NotImplementedException e)
+                    catch (NotImplementedException)
                     {
                         display = new SimpleDisplay();
                     }
@@ -81,13 +81,13 @@ namespace BiggestPrimeIn60s
         /// <returns>Display object created or NotImplemented exception will be thrown.</returns>
         ITimedCalculationDisplay createDisplay() 
         {
-            if (displayChoice == Text)
+            if (displayChoice == DisplayChoice.Text)
             {
                 return new SimpleDisplay();
             }
-            else if (displayChoice == SimpleForm)
+            else if (displayChoice == DisplayChoice.SimpleForm)
             {
-                return new SimpleDisplayForm();
+                return new SimpleFormDisplay();
             }
             throw new NotImplementedException();
         }
@@ -100,10 +100,10 @@ namespace BiggestPrimeIn60s
             {
                 if (calculator == null)
                 {
-                    if (algorithmChoice == Mersenne)
+                    if (algorithmChoice ==  PrimeSearchAlgorithms.MersenneC)
                         calculator = new Mersenne();
                     else 
-                    calculator = new SimpleCalculator();
+                    calculator = new Mersenne();
                 }
                 return calculator;
             }
