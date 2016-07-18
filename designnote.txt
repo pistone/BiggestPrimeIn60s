@@ -1,0 +1,15 @@
+
+
+The design of the application focused on the following goals.
+
+1) support common display method and prime number search algorithms
+2) allow evolution of display method and prime number search.
+3) use an algorithm that can come back a big prime number, regardless of the cpu speed etc.
+
+For 1) and 2), CommandLineOptionParser class is used to analyze command line options to select a display method and/or search algorithm. 
+
+Currently, only command line is used, but it is also intended that we may analyze the environment. For example, whether there is GPU may impact if we use a CUDA based algorithm.
+
+Every display method must implement an interface called ITimedCalculationDisplay. Every prime number search algorithm must support ICalculator interface. The main program assumes no knowledge of which display or algorithm is used.
+
+To beat Erathosthene's Sieve based algorithms, I used results from Mersenne's conjecture. Refer to www.mersenne.org for information. An search algorithm called Mersenne is used. The algorithm is parallel; one thread is attempt smaller number that its calculation is guarantee to finish within 60s; another thread challenges itself with large numbers. In reality, the latter also finishes comfortably but the design allows a good answer when it should fail. 
